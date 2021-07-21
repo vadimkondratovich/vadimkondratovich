@@ -15,6 +15,18 @@ def get_disk():
     ...
 
 
+def get_freq():
+    res = {}
+    cpu_freq = ps.cpu_freq(percpu=True)
+    res["time"] = {}
+    for index, freq in enumerate(cpu_freq):
+        res["time"][f"freq_{index}"] = (freq.current, freq.min, freq.max)
+    res["load"] = ps.cpu_percent(percpu=True, interval=0.3)    
+    return res
+
+
+
+
 def get_network():
     res = {}
     data = ps.net_io_counters(pernic=True)
@@ -49,15 +61,24 @@ def show(**kwargs):
     print(net_info_str)
 
 
+    cpu_freq_template = "Current:\t{current:>10}", "min:\t{min:>10}", "max:\t{max:>10}\n"
+    cpu_freq_str = ""
+    cpu = kwargs["cpu"]
+    for key, value in cpu["time"].items():
+        cpu_freq_str += cpu_freq_template.format(key, *value)
+    print(cpu_freq_str)
+
 def main():
     cpu_data = get_cpu()
     disk_data = get_disk()
     net_data = get_network()
+    freq_data = get_freq()
 
     show(
         cpu=cpu_data,
         disk=disk_data,
         net=net_data,
+        freq=freq_data,
     )
 
 

@@ -7,7 +7,6 @@ def get_disk_usage():
     res["envir"] = {}
     for index, core in enumerate(disk_usage):
         res["envir"][f"core_{index}"] = (core.total, core.used, core.free)
-        res["load"] = ps.cpu_percent(percpu=True, interval=0.3)
     return res
 
 def get_disk():
