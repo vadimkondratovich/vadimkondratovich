@@ -1,2 +1,2 @@
 import psutil
-print(psutil.cpu_freq())
+print( psutil.net_if_addrs())
