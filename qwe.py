@@ -1,19 +1,19 @@
 import psutil as ps
-import json
+#import json
 from functools import wraps
 
 
-def to_file(func):
-    @wraps(func)
-    def _exe():
-        res = func()
-        with open("result.txt", "w") as file:
-            file.write(str(res))
-        return res
-    return _exe
+#def to_file(func):
+    #@wraps(func)
+    #def _exe():
+        #res = func()
+        #with open("result.txt", "w") as file:
+            #file.write(str(res))
+        #return res
+    #return _exe
 
 
-@to_file
+#@to_file    
 def get_cpu():
     res = {}
     cpu_time = ps.cpu_times(percpu=True)
@@ -28,7 +28,7 @@ def get_disk():
     ...
 
 
-@to_file
+#@to_file
 def get_stats():
     res = {}
     cpu_stats = ps.cpu_stats()

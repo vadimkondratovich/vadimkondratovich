@@ -3,15 +3,15 @@ print( psutil.net_if_addrs())
 
 
 
-a = var.syscalls dlya cpu_stats
-a = 7
-res = ["chtoto"] = 9 (eto dict budet)
+#a = var.syscalls dlya cpu_stats
+#a = 7
+#res = ["chtoto"] = 9 (это будет словарь)
 
 
 
-list можем перебрать в цикле
+#список можем пербрать в цикле
 
-for i in var:
-    a = i.min
-    a->800(условно)
-    res["mins"] append(a)
+#for i in var:
+    #a = i.min
+    #a->800(условно)
+    #res["mins"].append(a)
