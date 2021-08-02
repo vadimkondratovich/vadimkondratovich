@@ -1,6 +1,19 @@
 import psutil as ps
+#import json
+from functools import wraps
 
 
+#def to_file(func):
+    #@wraps(func)
+    #def _exe():
+        #res = func()
+        #with open("result.txt", "w") as file:
+            #file.write(str(res))
+        #return res
+    #return _exe
+
+
+#@to_file    
 def get_cpu():
     res = {}
     cpu_time = ps.cpu_times(percpu=True)
@@ -15,21 +28,20 @@ def get_disk():
     ...
 
 
-def get_stats():
-    res = {}
-    cpu_stats = ps.cpu_stats()
-    res["stats"] = {}
-    for index, stat in enumerate(cpu_stats):
-        res["stats"][f"stat_{index}"] = (stat.ctx_switches, stat.interrupts, stat.soft_interrupts, stat.syscalls)
-    return res
+#@to_file
+#def get_stats():
+    #res = ()
+    #cpu_stats = ps.cpu_stats()
+    #for stat in cpu_stats:
+        #res = ([str(stat.ctx_switches), str(stat.interrupts), str(stat.soft_interrupts), str(stat.syscalls)])
+    #return res
 
 
 def get_freq():
-    res = {}
+    res = ()
     cpu_freq = ps.cpu_freq(percpu=True)
-    res["time"] = {}
-    for index, freq in enumerate (cpu_freq):
-        res["time"][f"freq_{index}"] = (freq.current, freq.min, freq.max)   
+    for freq in cpu_freq:
+        res = ([str(freq.current), str(freq.min), str(freq.max)]) 
     return res
 
 
@@ -46,18 +58,18 @@ def get_network():
     return res
 
 
-def get_addresses():
-    res = {}
-    addr = ps.net_if_addrs()
-    for ass, value in addr.items():
-        res[ass] = {
-            "family": value.family,
-            "address": value.address,
-            "netmask": value.netmask,
-            "broadcast": value.broadcast,
-            "ptp": value.ptp,
-        }
-    return res
+#def get_addresses():
+    #res = {}
+    #addr = ps.net_if_addrs()
+    #for ass, value in addr.items():
+        #res[ass] = {
+            #"family": value.family,
+            #"address": value.address,
+            #"netmask": value.netmask,
+            #"broadcast": value.broadcast,
+            #"ptp": value.ptp,
+        #}
+    #return res
 
 
 def get_disks():
@@ -83,30 +95,30 @@ def show(**kwargs):
         cpu_time_str += cpu_time_template.format(key, *value)
     print(cpu_time_str)
 
-    addresses_data_template = (
-        "family:\t{family:>5},\t"
-        "address:\t{address:>10},\t"
-        "netmask:\t{netmask:>10},\t"
-        "broadcast:\t{broadcast:>10},\t"
-        "ptp:\t{ptp:>10}\n"
-    )
-    addresses_data_str = ""
-    for name, value in kwargs["add"].items():
-        addresses_data_str += addresses_data_template.format(name, **value)
-    print(addresses_data_str)
+    #addresses_data_template = (
+        #"family:\t{family:>5},\t"
+        #"address:\t{address:>10},\t"
+        #"netmask:\t{netmask:>10},\t"
+        #"broadcast:\t{broadcast:>10},\t"
+        #"ptp:\t{ptp:>10}\n"
+    #)
+    #addresses_data_str = ""
+    #for name, value in kwargs["add"].items():
+        #addresses_data_str += addresses_data_template.format(name, **value)
+    #print(addresses_data_str)
 
 
-    cpu_stats_template = (
-        "ctx_switches:\t{write_count:>5},\t"
-        "interrupts:\t{read_bytes:>10},\t"
-        "soft_interrupts:\t{write_bytes:>10},\t"
-        "syscalls:\t{read_time:>10},\n"
-    )
-    cpu_stats_str = ""
-    stats = kwargs["cpu"]
-    for key, value in stats["stats"].items():
-        cpu_stats_str += cpu_stats_template.format(key, *value)
-    print(cpu_stats_str)
+    #cpu_stats_template = (
+        #"ctx_switches:\t{write_count:>5},\t"
+        #"interrupts:\t{read_bytes:>10},\t"
+        #"soft_interrupts:\t{write_bytes:>10},\t"
+        #"syscalls:\t{read_time:>10},\n"
+    #)
+    #cpu_stats_str = ""
+    #stats = kwargs["cpu"]
+    #for key, value in stats["stats"].items():
+        #cpu_stats_str += cpu_stats_template.format(key, *value)
+    #print(cpu_stats_str)
 
 
     net_info_template = (
@@ -150,8 +162,8 @@ def main():
     net_data = get_network()
     freq_data = get_freq()
     disks_data = get_disks()
-    stats_data = get_stats()
-    addresses_data = get_addresses()
+    #stats_data = get_stats()
+    #addresses_data = get_addresses()
 
 
     show(
@@ -160,8 +172,8 @@ def main():
         net=net_data,
         freq=freq_data,
         disks=disks_data,
-        stats=stats_data,
-        addresses=addresses_data,
+        #stats=stats_data,
+        #addresses=addresses_data,
     )
 
 
